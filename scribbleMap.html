@@ -1,0 +1,37 @@
+
+<html>
+<head>
+    <script>
+            window.scribblemaps = {
+                settings: {
+                    "baseAPI": "google",
+                    "key": "AIzaSyBUIa8q-qAMYNuknpbKRnktEZub1MG5AK0"
+                }
+            }
+    </script>
+    <script src="https://scribblemaps.com/api/js/"></script>
+
+    <script>
+        window.onload = function () {
+            var sm = new ScribbleMap('ScribbleMap', {
+                searchControl: false,
+                lineSettingsControl: false,
+                mapTypeControl: true,
+                fillColorControl: false,
+                lineColorControl: false,
+                zoomControl: true,
+                tools: ["edit", "drag", "eraser","scribble", "rectangle", "circle","polygon"],
+                defaultTool: "edit",
+                startCenter: [27.65863217, -81.50012463],
+                startZoom: 7,
+                startMapType: "hybrid",
+                disableZoom: false
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div id="ScribbleMap" style="width: 730px; height: 500px"></div>
+</body>
+</html>
