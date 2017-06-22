@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet</title>
+    
+	
+	<!--   -->
+	<link rel="stylesheet" href="./leaflet.css" />
+    <script src="./leaflet.js"></script>
+	
+  
+<!--	
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+
+	<link rel="stylesheet" href="file:///E:\Adapa_Suresh\E-drive\Apps\Maps\plugins\leaflet-legend.css" />
+	<script src="file:///E:\Adapa_Suresh\E-drive\Apps\Maps\plugins\leaflet-legend.js"></script>
+
+	-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUIa8q-qAMYNuknpbKRnktEZub1MG5AK0"></script>
+    <script src="http://matchingnotes.com/javascripts/leaflet-google.js"></script>
+  </head>
+  <body>
+    <div style="width:500px; height:500px" id="map"></div>
+    <script type='text/javascript'>
+      
+	  var map = new L.Map('map', {center: new L.LatLng(28.15918963, -81.61193848), zoom: 6});
+      //var googleLayer = new L.Google('ROADMAP');
+      //map.addLayer(googleLayer);
+	  
+	  var circledata = [[["lead1","990.5"],[27.6648274, -81.5057535]],[["lead2","130.2"],[26.3229602, -80.51330566]],[["lead3","470.2"],[26.56887655, -81.6229248]],
+	  [["lead4","200.2"],[25.94816629, -80.86486816]],[["lead5","382.2"],[26.38202798, -80.30456543]],[["lead6","854.2"],[27.54724155, -82.0513916]],
+	  [["lead7","110.7"],[27.80992778, -81.46911621]],[["lead8","280.6"],[27.82936086, -80.73303223]],[["lead9","790.3"],[28.15918963, -81.61193848]],
+	  [["lead10","543.8"],[30.13562623, -82.44689941]],[["lead11","233.2"],[29.97397024, -82.66662598]],[["lead12","730.2"],[29.67850809, -82.34802246]]]
+	  alert(circledata.length);
+	  
+	  var proposalsCnt=0;
+	  var proposalsAmt=0;
+	  
+	  for (i = 0; i < circledata.length; i++) {
+	  //alert(circledata[i][0][1]);
+	  L.circle(circledata[i][1], 50, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5,
+		weight: 5
+		}).bindPopup("<b>"+circledata[i][0][0]+"</b><br>"+circledata[i][0][1]).addTo(map);
+		proposalsCnt=proposalsCnt+1;
+		proposalsAmt=proposalsAmt+parseFloat(circledata[i][0][1]);
+}
+	  
+	    //map.on("mouseover",function(e){
+			//alert(e.latlng);
+		//});
+
+		// for leaflet1.0 use zoom or lower versions like 0.5/0.7 use viewreset
+		map.on('zoom', function(e) {
+		var Amt2Pass = 0;
+		var Cnt2Pass = 0;
+		console.log('viewreset');
+		console.log(map.getZoom());		
+			//if(map.getZoom()> 6){
+				var d = map.getBounds();
+					  for (i = 0; i < circledata.length; i++) {
+						if(d.contains(circledata[i][1])) {
+							Amt2Pass += parseFloat(circledata[i][0][1]);
+							Cnt2Pass += 1;
+						}
+						}
+				//alert("Map is reset"+d.contains([27.6648274, -81.5057535]));
+			//}
+			setLegand(Cnt2Pass,Amt2Pass);
+		});
+		
+		legend = L.control({position: 'bottomleft'});
+
+		legend.onAdd = function (map) {
+		var div = L.DomUtil.create('div', 'info legend');
+		div.innerHTML = '<div id="OpportunityLegend" style="border: 1px solid black;border-color: darkgreen;background-color: lightgreen;"><i>'+proposalsCnt+'</i> Prospect Leads<br><i>'+proposalsAmt.toFixed(2)+'</i> ForecastAmount<br></div>';
+		return div;
+		};
+		legend.addTo(map);
+	  
+	  function setLegand(Cnt,Amt){
+		document.getElementById("OpportunityLegend").innerHTML = '<i>'+Cnt+'</i> Prospect Leads<br><i>'+Amt.toFixed(2)+'</i> ForecastAmount<br>';	  
+	  }
+	  
+    </script>
+  </body>
+</html>
